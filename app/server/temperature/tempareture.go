@@ -61,7 +61,7 @@ func generateTemperatureUri(fromDate, toDate time.Time) string {
 		"https://dmigw.govcloud.dk/v2/metObs/collections/observation/items?datetime=%s/%s&stationId=06180&parameterId=temp_dry&bbox-crs=https://www.opengis.net/def/crs/OGC/1.3/CRS84&api-key=%s",
 		util.FormatDate(fromDate),
 		util.FormatDate(toDate),
-		util.GetEnvVariable("DMI_API_KEY"),
+		util.GetEnvVariable("DMI_MET_OBS_API_KEY"),
 	)
 	return uri
 }

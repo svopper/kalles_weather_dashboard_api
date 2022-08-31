@@ -16,7 +16,7 @@ func generateOceanUri(stationId int) string {
 	uri := fmt.Sprintf(
 		"https://dmigw.govcloud.dk/v2/oceanObs/collections/observation/items?period=latest-day&stationId=%d&parameterId=tw&sortorder=observed,DESC&bbox-crs=https://www.opengis.net/def/crs/OGC/1.3/CRS84&api-key=%s",
 		stationId,
-		util.GetEnvVariable("DMI_OCEAN_API_KEY"),
+		util.GetEnvVariable("DMI_OCEAN_OBS_API_KEY"),
 	)
 	return uri
 }

@@ -1,7 +1,7 @@
 FROM golang
 
 ENV GO111MODULE=on
-ENV DMI_API_KEY=xxx
+ENV DMI_MET_OBS_API_KEY=xxx
 ENV GIN_MODE=release
 
 WORKDIR /app
