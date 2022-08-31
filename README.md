@@ -1,7 +1,5 @@
 # Kalle's Weather Dashboard 2
 
-> README coming soon...
-
 ## Setup
 
 This app uses env variables to get API keys. The following keys are needed:
