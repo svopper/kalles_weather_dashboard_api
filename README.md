@@ -1,5 +1,7 @@
 # Kalle's Weather Dashboard 2
 
+> App that consumes the DMI API and presents weather data through different endpoints.
+
 ## Setup
 
 This app uses env variables to get API keys. The following keys are needed:
