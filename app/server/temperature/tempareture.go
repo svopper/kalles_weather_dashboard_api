@@ -116,4 +116,6 @@ func GetIndex(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.go.tmpl", gin.H{
 		"data": viewModel,
 	})
+
+	// c.JSON(http.StatusOK, viewModel)
 }
