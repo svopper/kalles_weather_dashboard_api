@@ -20,10 +20,7 @@ jobs:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
     - id: 'deploy'
-      uses: 'google-github-actions/deploy-cloudrun@v0'
-      with:
-        service: 'kalles-weather-dashboard-api'
-        metadata: /app.yaml
+      uses: 'google-github-actions/deploy-appengine@v0'
 
     - name: 'Use output'
       run: 'curl "${{ steps.deploy.outputs.url }}"'
