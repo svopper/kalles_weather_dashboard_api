@@ -14,11 +14,10 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - run: 'echo ${{ secrets.GCP_SA_KEY }}'
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
       with:
-        credentials_json: '${{ secrets.TEST_SECRET }}'
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
 
     - id: 'deploy'
       uses: 'google-github-actions/deploy-cloudrun@v0'
