@@ -22,8 +22,8 @@ jobs:
     - id: 'deploy'
       uses: 'google-github-actions/deploy-cloudrun@v0'
       with:
-        service: 'hello-cloud-run'
-        metadata: app.yaml
+        service: 'kalles-weather-dashboard-api'
+        metadata: /app.yaml
 
     - name: 'Use output'
       run: 'curl "${{ steps.deploy.outputs.url }}"'
