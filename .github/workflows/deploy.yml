@@ -23,8 +23,7 @@ jobs:
       uses: 'google-github-actions/deploy-cloudrun@v0'
       with:
         service: 'hello-cloud-run'
-        metadata: 
-          name: app
+        metadata: app.yaml
 
     - name: 'Use output'
       run: 'curl "${{ steps.deploy.outputs.url }}"'
