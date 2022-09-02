@@ -3,7 +3,7 @@ name: Build and Deploy to Cloud Run
 on:
   push:
     branches:
-      - "release"
+      - "main"
 
 jobs:
   job_id:
