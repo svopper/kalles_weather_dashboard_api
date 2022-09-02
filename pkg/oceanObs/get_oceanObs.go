@@ -1,15 +1,15 @@
-package ocean
+package oceanObs
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"math"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/svopper/kalles_weather_dashboard_v2/app/server/util"
-	"github.com/svopper/kalles_weather_dashboard_v2/app/server/util/models"
+	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/models"
+	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/util"
 )
 
 func generateOceanUri(stationId int) string {
@@ -25,7 +25,7 @@ func getOceanObservations(stationId int) models.DMIObservation {
 	uri := generateOceanUri(stationId)
 	request := util.BuildRequest(uri)
 	response := util.DoRequest(request)
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		panic(err)
 	}
@@ -48,24 +48,21 @@ func getMax(features []models.Feature) float64 {
 	return max
 }
 
-func GetOcean(c *gin.Context) {
-	viewModel := oceanViewModel{
-		Date: time.Now().Format("January 02"),
-		IsNA: func(f float64) bool { return math.IsInf(f, 0) },
+func GetOceanObs(c *gin.Context) {
+	oceanObsModel := models.OceanObservationResponse{
+		Date: time.Now().Format(time.RFC3339),
 	}
 
 	for stationId, stationName := range util.OCEAN_STATION_MAP {
 		obs := getOceanObservations(stationId)
-		observation := observation{
+		observation := models.OceanObservation{
 			StationId:         stationId,
 			StationName:       stationName,
-			Temperature:       getMax(obs.Features),
+			MaxTemp24H:        getMax(obs.Features),
 			LatestTemperature: obs.Features[0].Properties.Value,
 		}
-		viewModel.Observations = append(viewModel.Observations, observation)
+		oceanObsModel.Observations = append(oceanObsModel.Observations, observation)
 	}
 
-	c.HTML(http.StatusOK, "ocean.go.tmpl", gin.H{
-		"data": viewModel,
-	})
+	c.JSON(http.StatusOK, oceanObsModel)
 }

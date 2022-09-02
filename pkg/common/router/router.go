@@ -1,14 +1,12 @@
-package server
+package router
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/svopper/kalles_weather_dashboard_v2/app/server/ocean"
-	"github.com/svopper/kalles_weather_dashboard_v2/app/server/temperature"
 )
 
-func InstantiateControllers() *gin.Engine {
+func InstantiateRouter() *gin.Engine {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.CustomRecovery(func(c *gin.Context, recovered interface{}) {
@@ -19,13 +17,6 @@ func InstantiateControllers() *gin.Engine {
 		}
 		c.AbortWithStatus(http.StatusInternalServerError)
 	}))
-
-	api := router.Group("/api")
-	{
-		api.GET("/metObs", temperature.GetIndex)
-		api.GET("/ocean", ocean.GetOcean)
-		// api.GET("/map", station_map.GetMap)
-	}
 
 	return router
 }

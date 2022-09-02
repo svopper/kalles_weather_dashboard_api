@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/svopper/kalles_weather_dashboard_v2/app/server/util/models"
+	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/models"
 )
 
 func IsLeapYear(year int) bool {

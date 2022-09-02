@@ -1,18 +1,18 @@
-package temperature
+package metObs
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"math"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/svopper/kalles_weather_dashboard_v2/app/server/util"
-	"github.com/svopper/kalles_weather_dashboard_v2/app/server/util/models"
+	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/models"
+	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/util"
 )
 
-func getAverageMaxTemp(observations []temperatureObservation) float64 {
+func getAverageMaxTemp(observations []models.TemperatureObservation) float64 {
 	var sum float64
 	iterations := 0
 	for _, observation := range observations {
@@ -25,7 +25,7 @@ func getAverageMaxTemp(observations []temperatureObservation) float64 {
 	return util.RoundToTwoDecimal(sum / float64(iterations))
 }
 
-func getAverageMinTemp(observations []temperatureObservation) float64 {
+func getAverageMinTemp(observations []models.TemperatureObservation) float64 {
 	var sum float64
 	iterations := 0
 	for _, observation := range observations {
@@ -43,7 +43,7 @@ func getWatherObservations(from, to time.Time) models.DMIObservation {
 	uri := generateTemperatureUri(from, to)
 	request := util.BuildRequest(uri)
 	response := util.DoRequest(request)
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		panic(err)
 	}
@@ -80,7 +80,7 @@ func getMinAndMax(features []models.Feature) (float64, float64) {
 	return min, max
 }
 
-func GetIndex(c *gin.Context) {
+func GetMetObs(c *gin.Context) {
 	requestedDate := c.Query("date")
 	var parsedDate time.Time
 
@@ -90,32 +90,27 @@ func GetIndex(c *gin.Context) {
 		parsedDate = time.Now()
 	}
 
-	viewModel := indexViewModel{
-		Date:                    parsedDate.Format("January 02"),
-		TemperatureObservations: []temperatureObservation{},
+	viewModel := models.MetObservationResponse{
+		Date:                    parsedDate.Format(time.RFC3339),
+		TemperatureObservations: []models.TemperatureObservation{},
 	}
 	for i := 1; i <= 10; i++ {
 		year := parsedDate.Year() - i
 		month := parsedDate.Month()
 		day := parsedDate.Day()
 		if !util.IsLeapYear(year) && month == time.February && day == 29 {
-			viewModel.TemperatureObservations = append(viewModel.TemperatureObservations, temperatureObservation{Year: year, Min: math.Inf(-1), Max: math.Inf(1)})
+			viewModel.TemperatureObservations = append(viewModel.TemperatureObservations, models.TemperatureObservation{Year: year, Min: math.Inf(-1), Max: math.Inf(1)})
 			continue
 		}
 		fromDate := time.Date(year, month, day, 0, 0, 0, 0, time.Now().Location())
 		toDate := time.Date(year, month, day, 23, 59, 0, 0, time.Now().Location())
 		w := getWatherObservations(fromDate, toDate)
 		min, max := getMinAndMax(w.Features)
-		obs := temperatureObservation{Year: year, Min: min, Max: max}
+		obs := models.TemperatureObservation{Year: year, Min: min, Max: max}
 		viewModel.TemperatureObservations = append(viewModel.TemperatureObservations, obs)
 	}
 	viewModel.MaxAverage = getAverageMaxTemp(viewModel.TemperatureObservations)
 	viewModel.MinAverage = getAverageMinTemp(viewModel.TemperatureObservations)
-	viewModel.IsNA = func(f float64) bool { return math.IsInf(f, 0) }
 
-	c.HTML(http.StatusOK, "index.go.tmpl", gin.H{
-		"data": viewModel,
-	})
-
-	// c.JSON(http.StatusOK, viewModel)
+	c.JSON(http.StatusOK, viewModel)
 }
