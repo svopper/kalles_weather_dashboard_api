@@ -6,7 +6,7 @@ func RegisterRoutes(r *gin.Engine) {
 	routes := r.Group("/ping")
 	routes.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
-			"message": "pong",
+			"message": "pong2",
 		})
 	})
 }
