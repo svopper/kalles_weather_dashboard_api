@@ -6,6 +6,8 @@ on:
       - "main"
 
 jobs:
+
+  runs-on: ubuntu-latest
   job_id:
     permissions:
       contents: 'read'
