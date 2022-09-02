@@ -24,8 +24,8 @@ jobs:
       with:
         service: 'hello-cloud-run'
         metadata: 
-          runtime: go116
-          main: ./cmd/main.go
+          runtime: 'go116'
+          main: './cmd/main.go'
 
     - name: 'Use output'
       run: 'curl "${{ steps.deploy.outputs.url }}"'
