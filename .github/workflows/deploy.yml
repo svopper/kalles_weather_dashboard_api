@@ -6,22 +6,32 @@ on:
       - "main"
 
 jobs:
-
   deploy:
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v0'
-      with:
-        credentials_json: ${{ secrets.GCP_SA_KEY }}
-    - id: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v0'
-      
+      - uses: actions/checkout@v2
+      - name: "Find and replace MET_OBS_KEY"
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "DMI_MET_OBS_API_KEY: xxx"
+          replace: ${{ secrets.DMI_MET_OBS_API_KEY }}
+          include: "**config.yaml"
+      - name: "Find and replace OCEAN_OBS_KEY"
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "DMI_OCEAN_OBS_API_KEY: xxx"
+          replace: ${{ secrets.DMI_OCEAN_OBS_API_KEY }}
+          include: "**config.yaml"
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - id: "deploy"
+        uses: "google-github-actions/deploy-appengine@v0"
 
-    - name: 'Use output'
-      run: 'curl "${{ steps.deploy.outputs.url }}"'
+      - name: "Use output"
+        run: 'curl "${{ steps.deploy.outputs.url }}"'
