@@ -3,6 +3,7 @@ package metObs
 import (
 	"fmt"
 	"io"
+	"log"
 	"math"
 	"net/http"
 	"time"
@@ -63,6 +64,7 @@ func generateTemperatureUri(fromDate, toDate time.Time) string {
 		util.FormatDate(toDate),
 		util.GetEnvVariable("DMI_MET_OBS_API_KEY"),
 	)
+	log.Println(uri)
 	return uri
 }
 

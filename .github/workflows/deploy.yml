@@ -30,19 +30,6 @@ jobs:
           value: ${{ secrets.DMI_OCEAN_OBS_API_KEY }}
           commitChange: false
           updateFile: true
-
-      # - name: "Find and replace MET_OBS_KEY"
-      #   uses: jacobtomlinson/gha-find-replace@v2
-      #   with:
-      #     find: "DMI_MET_OBS_API_KEY: xxx"
-      #     replace: ${{ secrets.DMI_MET_OBS_API_KEY }}
-      #     include: "**config.yaml"
-      # - name: "Find and replace OCEAN_OBS_KEY"
-      #   uses: jacobtomlinson/gha-find-replace@v2
-      #   with:
-      #     find: "DMI_OCEAN_OBS_API_KEY: xxx"
-      #     replace: ${{ secrets.DMI_OCEAN_OBS_API_KEY }}
-      #     include: "**config.yaml"
       - id: "auth"
         uses: "google-github-actions/auth@v0"
         with:
