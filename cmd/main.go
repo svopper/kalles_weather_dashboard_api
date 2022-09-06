@@ -25,5 +25,5 @@ func main() {
 	})
 	metObs.RegisterRoutes(router)
 	oceanObs.RegisterRoutes(router)
-	router.Run("localhost:8080")
+	router.Run("localhost:" + port)
 }
