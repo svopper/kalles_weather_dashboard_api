@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/spf13/viper"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/models"
 )
 
@@ -20,14 +21,6 @@ func IsLeapYear(year int) bool {
 func RoundToTwoDecimal(num float64) float64 {
 	rounded := math.Round(num*10) / 10
 	return rounded
-}
-
-func GetEnvVariable(name string) string {
-	value := os.Getenv(name)
-	if value == "" {
-		panic(fmt.Sprintf("Environment variable %s is not set", name))
-	}
-	return value
 }
 
 func FormatDate(date time.Time) string {
@@ -59,4 +52,12 @@ func UnmarshalDMIObservation(data []byte) (models.DMIObservation, error) {
 	var r models.DMIObservation
 	err := json.Unmarshal(data, &r)
 	return r, err
+}
+
+func GetEnvVariable(key string) string {
+	value := viper.Get(key)
+	if value == "xxx" {
+		return os.Getenv(key)
+	}
+	return value.(string)
 }
