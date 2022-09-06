@@ -17,7 +17,7 @@ jobs:
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: "../../pkg/common/envs/config.yaml"
+          valueFile: "../pkg/common/envs/config.yaml"
           propertyPath: "DMI_MET_OBS_API_KEY"
           value: ${{ secrets.DMI_MET_OBS_API_KEY }}
           commitChange: false
@@ -25,7 +25,7 @@ jobs:
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: "../../pkg/common/envs/config.yaml"
+          valueFile: "../pkg/common/envs/config.yaml"
           propertyPath: "DMI_OCEAN_OBS_API_KEY"
           value: ${{ secrets.DMI_OCEAN_OBS_API_KEY }}
           commitChange: false
