@@ -7,7 +7,6 @@ import (
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/router"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/metObs"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/oceanObs"
-	"github.com/svopper/kalles_weather_dashboard_v2/pkg/ping"
 )
 
 func main() {
@@ -21,7 +20,5 @@ func main() {
 
 	metObs.RegisterRoutes(router)
 	oceanObs.RegisterRoutes(router)
-	ping.RegisterRoutes(router)
-
-	router.Run(":" + port)
+	router.Run("localhost:8080")
 }
