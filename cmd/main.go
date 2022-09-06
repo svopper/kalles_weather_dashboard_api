@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -22,6 +23,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error reading config file, %s", err)
 	}
+
+	fmt.Println(viper.Get("DMI_OCEAN_OBS_API_KEY"))
 
 	if port == "" {
 		log.Println("PORT environment variable not set. Defaulting to 8080")
