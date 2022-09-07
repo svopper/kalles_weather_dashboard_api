@@ -1,0 +1,123 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/metObs/": {
+            "get": {
+                "description": "Get metrological observations for a given date",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "metObs"
+                ],
+                "summary": "Get metrological observations",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Date",
+                        "name": "date",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MetObservationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/oceanObs/": {
+            "get": {
+                "description": "Get the current ocean temperature and highest temperature in the past 24h from a fixed set of locations",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oceanObs"
+                ],
+                "summary": "Get current ocean temperature",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.OceanObservationResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.MetObservationResponse": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "maxAverage": {
+                    "type": "number"
+                },
+                "minAverage": {
+                    "type": "number"
+                },
+                "temperatureObservations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.TemperatureObservation"
+                    }
+                }
+            }
+        },
+        "models.OceanObservation": {
+            "type": "object",
+            "properties": {
+                "latestTemperature": {
+                    "type": "number"
+                },
+                "maxTemp24H": {
+                    "type": "number"
+                },
+                "stationId": {
+                    "type": "integer"
+                },
+                "stationName": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.OceanObservationResponse": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "observations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.OceanObservation"
+                    }
+                }
+            }
+        },
+        "models.TemperatureObservation": {
+            "type": "object",
+            "properties": {
+                "max": {
+                    "type": "number"
+                },
+                "min": {
+                    "type": "number"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

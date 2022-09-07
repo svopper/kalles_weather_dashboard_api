@@ -3,7 +3,6 @@ package metObs
 import (
 	"fmt"
 	"io"
-	"log"
 	"math"
 	"net/http"
 	"time"
@@ -64,7 +63,6 @@ func generateTemperatureUri(fromDate, toDate time.Time) string {
 		util.FormatDate(toDate),
 		util.GetEnvVariable("DMI_MET_OBS_API_KEY"),
 	)
-	log.Println(uri)
 	return uri
 }
 
@@ -82,6 +80,14 @@ func getMinAndMax(features []models.Feature) (float64, float64) {
 	return min, max
 }
 
+// GetMetObs godoc
+// @Description  Get metrological observations for a given date
+// @Summary  	 Get metrological observations
+// @Tags         metObs
+// @Produce      json
+// @Param        date	query	string  false  "Date"
+// @Success      200  {object}  models.MetObservationResponse
+// @Router       /metObs/ [get]
 func GetMetObs(c *gin.Context) {
 	requestedDate := c.Query("date")
 	var parsedDate time.Time

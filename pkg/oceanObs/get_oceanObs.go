@@ -48,6 +48,13 @@ func getMax(features []models.Feature) float64 {
 	return max
 }
 
+// GetOceanObs	 godoc
+// @Description  Get the current ocean temperature and highest temperature in the past 24h from a fixed set of locations
+// @Summary  	 Get current ocean temperature
+// @Tags         oceanObs
+// @Produce      json
+// @Success      200  {object}  models.OceanObservationResponse
+// @Router       /oceanObs/ [get]
 func GetOceanObs(c *gin.Context) {
 	oceanObsModel := models.OceanObservationResponse{
 		Date: time.Now().Format(time.RFC3339),
