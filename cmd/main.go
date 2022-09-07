@@ -1,30 +1,20 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
+	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/envs"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/router"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/metObs"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/oceanObs"
 )
 
 func main() {
+	envs.ConfigureViper()
 	router := router.InstantiateRouter()
 	port := os.Getenv("PORT")
-
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("pkg/common/envs")
-	err := viper.ReadInConfig()
-	if err != nil {
-		log.Fatalf("Error reading config file, %s", err)
-	}
-
-	fmt.Println(viper.Get("DMI_OCEAN_OBS_API_KEY"))
 
 	if port == "" {
 		log.Println("PORT environment variable not set. Defaulting to 8080")
@@ -32,7 +22,7 @@ func main() {
 	}
 	router.GET("", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "Hello World!",
+			"message": "I'm alive!",
 		})
 	})
 	metObs.RegisterRoutes(router)
