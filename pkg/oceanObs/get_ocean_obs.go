@@ -57,7 +57,7 @@ func getMax(features []models.Feature) float64 {
 // @Router       /oceanObs/ [get]
 func GetOceanObs(c *gin.Context) {
 	oceanObsModel := models.OceanObservationResponse{
-		Date: time.Now().Format(time.RFC3339),
+		Date: time.Now().Format("January 02"),
 	}
 
 	for stationId, stationName := range util.OCEAN_STATION_MAP {
