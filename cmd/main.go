@@ -21,7 +21,6 @@ func setupSwagger(router *gin.Engine) {
 	docs.SwaggerInfo.Version = "1.0"
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
 }
 
 func main() {

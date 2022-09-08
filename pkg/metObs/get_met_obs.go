@@ -45,6 +45,7 @@ func getWatherObservations(from, to time.Time) models.DMIObservation {
 	response := util.DoRequest(request)
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
+
 		panic(err)
 	}
 
@@ -81,7 +82,7 @@ func getMinAndMax(features []models.Feature) (float64, float64) {
 }
 
 // GetMetObs godoc
-// @Description  Get metrological observations for a given date
+// @Description  Get metrological observations for a given date. If no date is given, the current date is used.
 // @Summary  	 Get metrological observations
 // @Tags         metObs
 // @Produce      json
@@ -99,7 +100,7 @@ func GetMetObs(c *gin.Context) {
 	}
 
 	viewModel := models.MetObservationResponse{
-		Date:                    parsedDate.Format(time.RFC3339),
+		Date:                    parsedDate.Format("January 02"),
 		TemperatureObservations: []models.TemperatureObservation{},
 	}
 	for i := 1; i <= 10; i++ {
