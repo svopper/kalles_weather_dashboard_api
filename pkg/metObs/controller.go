@@ -1,8 +1,19 @@
 package metObs
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
+)
 
-func RegisterRoutes(r *gin.Engine) {
+type handler struct {
+	DB *redis.Client
+}
+
+func RegisterRoutes(r *gin.Engine, db *redis.Client) {
+	h := &handler{
+		DB: db,
+	}
+
 	routes := r.Group("/metObs")
-	routes.GET("", GetMetObs)
+	routes.GET("", h.GetMetObs)
 }

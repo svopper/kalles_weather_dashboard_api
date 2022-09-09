@@ -18,7 +18,7 @@ const docTemplate = `{
     "paths": {
         "/metObs/": {
             "get": {
-                "description": "Get metrological observations for a given date",
+                "description": "Get metrological observations for a given date. If no date is given, the current date is used.",
                 "produces": [
                     "application/json"
                 ],
@@ -29,8 +29,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Date",
+                        "description": "Date (default: today)",
                         "name": "date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of years back to get observations for (default: 10)",
+                        "name": "numberOfYears",
                         "in": "query"
                     }
                 ],

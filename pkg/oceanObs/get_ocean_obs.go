@@ -55,7 +55,7 @@ func getMax(features []models.Feature) float64 {
 // @Produce      json
 // @Success      200  {object}  models.OceanObservationResponse
 // @Router       /oceanObs/ [get]
-func GetOceanObs(c *gin.Context) {
+func (h handler) GetOceanObs(c *gin.Context) {
 	oceanObsModel := models.OceanObservationResponse{
 		Date: time.Now().Format("January 02"),
 	}

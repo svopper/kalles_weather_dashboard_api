@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/svopper/kalles_weather_dashboard_v2/docs"
+	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/db"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/envs"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/router"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/metObs"
@@ -38,7 +39,10 @@ func main() {
 			"message": "I'm alive!",
 		})
 	})
-	metObs.RegisterRoutes(router)
-	oceanObs.RegisterRoutes(router)
+
+	db_client := db.Init()
+
+	metObs.RegisterRoutes(router, db_client)
+	oceanObs.RegisterRoutes(router, db_client)
 	router.Run("localhost:" + port)
 }

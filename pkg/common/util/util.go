@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/models"
 )
@@ -60,4 +61,12 @@ func GetEnvVariable(key string) string {
 		return os.Getenv(key)
 	}
 	return value.(string)
+}
+
+func GetQueryParameter(c *gin.Context, key, defaultValue string) string {
+	value := c.Query(key)
+	if value == "" {
+		return defaultValue
+	}
+	return value
 }

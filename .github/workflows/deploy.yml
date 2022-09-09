@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Update values.yaml
+      - name: Update DMI_MET_OBS_API_KEY in config.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: "pkg/common/envs/config.yaml"
@@ -22,12 +22,28 @@ jobs:
           value: ${{ secrets.DMI_MET_OBS_API_KEY }}
           commitChange: false
           updateFile: true
-      - name: Update values.yaml
+      - name: Update DMI_OCEAN_OBS_API_KEY in config.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: "pkg/common/envs/config.yaml"
           propertyPath: "DMI_OCEAN_OBS_API_KEY"
           value: ${{ secrets.DMI_OCEAN_OBS_API_KEY }}
+          commitChange: false
+          updateFile: true
+      - name: Update REDIS_DB_PSWD in config.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: "pkg/common/envs/config.yaml"
+          propertyPath: "REDIS_DB_PSWD"
+          value: ${{ secrets.REDIS_DB_PSWD }}
+          commitChange: false
+          updateFile: true
+      - name: Update REDIS_URL in config.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: "pkg/common/envs/config.yaml"
+          propertyPath: "REDIS_URL"
+          value: ${{ secrets.REDIS_URL }}
           commitChange: false
           updateFile: true
       - id: "auth"

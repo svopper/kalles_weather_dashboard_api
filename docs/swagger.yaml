@@ -46,12 +46,17 @@ info:
 paths:
   /metObs/:
     get:
-      description: Get metrological observations for a given date
+      description: Get metrological observations for a given date. If no date is given,
+        the current date is used.
       parameters:
-      - description: Date
+      - description: 'Date (default: today)'
         in: query
         name: date
         type: string
+      - description: 'Number of years back to get observations for (default: 10)'
+        in: query
+        name: numberOfYears
+        type: integer
       produces:
       - application/json
       responses:
