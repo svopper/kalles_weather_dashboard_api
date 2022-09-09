@@ -11,6 +11,7 @@ import (
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/router"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/metObs"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/oceanObs"
+	"github.com/svopper/kalles_weather_dashboard_v2/pkg/stations"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -44,5 +45,6 @@ func main() {
 
 	metObs.RegisterRoutes(router, db_client)
 	oceanObs.RegisterRoutes(router, db_client)
+	stations.RegisterRoutes(router, db_client)
 	router.Run("localhost:" + port)
 }
