@@ -91,15 +91,15 @@ func getTemperatureObservation(h handler, keyMin, keyMax string, fromDate, toDat
 	if err_min != redis.Nil && err_max != redis.Nil {
 		v_min, _ := strconv.ParseFloat(value_min, 64)
 		v_max, _ := strconv.ParseFloat(value_max, 64)
-		to.Min = v_min
-		to.Max = v_max
+		to.Min = math.Round(v_min)
+		to.Max = math.Round(v_max)
 	} else {
 		w := getWatherObservations(fromDate, toDate)
 		min, max := getMinAndMax(w.Features)
 		h.DB.Set(keyMin, min, 0)
 		h.DB.Set(keyMax, max, 0)
-		to.Min = min
-		to.Max = max
+		to.Min = math.Round(min)
+		to.Max = math.Round(max)
 	}
 	to.Year = fromDate.Year()
 	return to
