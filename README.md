@@ -24,6 +24,10 @@ This app uses env variables to get API keys. The following keys are needed:
 
 During development, API keys should be stored as env variables on the OS. When deploying to production, proper API keys are injected in [pkg/common/envs/config.yaml](https://github.com/svopper/kalles_weather_dashboard_v2/blob/main/pkg/common/envs/config.yaml) from a GitHub Action. API keys are found on the [DMI Open Data platform](https://dmiapi.govcloud.dk/).
 
+## Run the application
+
+Run the commands `go run cmd/main.go`
+
 ## ♻️ Deployment
 
 The project is deployed to the [kalles-weather-dashboard-api](https://console.cloud.google.com/welcome?project=kalles-weather-dashboard-api)-project on Google Cloud Platform.
