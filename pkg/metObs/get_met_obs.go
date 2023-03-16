@@ -5,6 +5,7 @@ import (
 	"io"
 	"math"
 	"net/http"
+	"sort"
 	"strconv"
 	"time"
 
@@ -14,35 +15,62 @@ import (
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/util"
 )
 
-func getAverageMaxTemp(observations []models.TemperatureObservation) float64 {
+func getAverageMaxTemp(observations []float64) float64 {
 	var sum float64
 	iterations := 0
-	for _, observation := range observations {
-		if observation.Max == math.Inf(1) {
+	outliersRemoved := removeMinAndMaxValue(observations)
+	fmt.Println(observations)
+	fmt.Println(outliersRemoved)
+	for _, observation := range outliersRemoved {
+		if observation == math.Inf(1) {
 			continue
 		}
-		sum += observation.Max
+		sum += observation
 		iterations++
 	}
 	return util.RoundToTwoDecimal(sum / float64(iterations))
 }
 
-func getAverageMinTemp(observations []models.TemperatureObservation) float64 {
+func getAverageMinTemp(observations []float64) float64 {
 	var sum float64
 	iterations := 0
-	for _, observation := range observations {
-		if observation.Min == math.Inf(-1) {
+	outliersRemoved := removeMinAndMaxValue(observations)
+	for _, observation := range outliersRemoved {
+		if observation == math.Inf(-1) {
 			continue
 		}
-		sum += observation.Min
+		sum += observation
 		iterations++
 
 	}
 	return util.RoundToTwoDecimal(sum / float64(iterations))
+}
+
+func removeMinAndMaxValue(observations []float64) []float64 {
+	sorted := sort.Float64Slice(observations)
+	sort.Sort(sorted)
+	return sorted[1 : len(sorted)-1]
+}
+
+func getMaxTempValues(observations []models.TemperatureObservation) []float64 {
+	result := []float64{}
+	for _, observation := range observations {
+		result = append(result, observation.Max)
+	}
+	return result
+}
+
+func getMinTempValues(observations []models.TemperatureObservation) []float64 {
+	result := []float64{}
+	for _, observation := range observations {
+		result = append(result, observation.Min)
+	}
+	return result
 }
 
 func getWatherObservations(from, to time.Time) models.DMIObservation {
 	uri := generateTemperatureUri(from, to)
+	fmt.Println(uri)
 	request := util.BuildRequest(uri)
 	response := util.DoRequest(request)
 	body, err := io.ReadAll(response.Body)
@@ -88,6 +116,8 @@ func getTemperatureObservation(h handler, keyMin, keyMax string, fromDate, toDat
 	var to models.TemperatureObservation
 	value_min, err_min := h.DB.Get(keyMin).Result()
 	value_max, err_max := h.DB.Get(keyMax).Result()
+	fmt.Println(value_min)
+	fmt.Println(value_max)
 	if err_min != redis.Nil && err_max != redis.Nil {
 		v_min, _ := strconv.ParseFloat(value_min, 64)
 		v_max, _ := strconv.ParseFloat(value_max, 64)
@@ -103,6 +133,10 @@ func getTemperatureObservation(h handler, keyMin, keyMax string, fromDate, toDat
 	}
 	to.Year = fromDate.Year()
 	return to
+
+}
+
+func (h handler) GetAverage(c *gin.Context) {
 
 }
 
@@ -153,8 +187,8 @@ func (h handler) GetMetObs(c *gin.Context) {
 		viewModel.TemperatureObservations = append(viewModel.TemperatureObservations, tempObs)
 
 	}
-	viewModel.MaxAverage = getAverageMaxTemp(viewModel.TemperatureObservations)
-	viewModel.MinAverage = getAverageMinTemp(viewModel.TemperatureObservations)
+	viewModel.MaxAverage = getAverageMaxTemp(getMaxTempValues(viewModel.TemperatureObservations))
+	viewModel.MinAverage = getAverageMinTemp(getMinTempValues(viewModel.TemperatureObservations))
 
 	c.JSON(http.StatusOK, viewModel)
 }
