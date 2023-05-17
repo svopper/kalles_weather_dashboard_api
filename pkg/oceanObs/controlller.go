@@ -16,4 +16,5 @@ func RegisterRoutes(r *gin.Engine, db *redis.Client) {
 
 	routes := r.Group("/oceanObs")
 	routes.GET("", h.GetOceanObs)
+	routes.GET(":stationId", h.GetOceanObsByStationId)
 }

@@ -10,6 +10,8 @@ App is hosted on [api.weather.kols.dk](https://api.weather.kols.dk/).
 
 SSL are managed through [Google Cloud Platform](https://console.cloud.google.com/net-services/loadbalancing/advanced/sslCertificates/list?project=kalles-weather-dashboard-api).
 
+Redish cache is hosted here: https://app.redislabs.com/#/subscriptions/subscription/1838338/bdb-view/11200786/configuration
+
 ## 🏗 Setup
 
 This app uses env variables to get API keys. The following keys are needed:

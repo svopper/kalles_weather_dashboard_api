@@ -5,6 +5,7 @@ import (
 	"io"
 	"math"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -72,4 +73,21 @@ func (h handler) GetOceanObs(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, oceanObsModel)
+}
+
+func (h handler) GetOceanObsByStationId(c *gin.Context) {
+	stationId := c.Param("stationId")
+	stationIdInt, err := strconv.Atoi(stationId)
+	if err != nil {
+		panic(err)
+	}
+
+	obs := getOceanObservations(stationIdInt)
+	observation := models.OceanObservation{
+		StationId:         stationIdInt,
+		StationName:       util.OCEAN_STATION_MAP[stationIdInt],
+		MaxTemp24H:        getMax(obs.Features),
+		LatestTemperature: obs.Features[0].Properties.Value,
+	}
+	c.JSON(http.StatusOK, observation)
 }
