@@ -52,6 +52,35 @@
                     "200": {
                         "description": "OK",
                         "schema": {
+                            "$ref": "#/definitions/models.OceanObservationsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/oceanObs/{stationId}": {
+            "get": {
+                "description": "Get the current ocean temperature and highest temperature in the past 24h from a specific location",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oceanObs"
+                ],
+                "summary": "Get current ocean temperature from a specific location",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Station ID",
+                        "name": "stationId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
                             "$ref": "#/definitions/models.OceanObservationResponse"
                         }
                     }
@@ -98,6 +127,17 @@
             }
         },
         "models.OceanObservationResponse": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "observation": {
+                    "$ref": "#/definitions/models.OceanObservation"
+                }
+            }
+        },
+        "models.OceanObservationsResponse": {
             "type": "object",
             "properties": {
                 "date": {

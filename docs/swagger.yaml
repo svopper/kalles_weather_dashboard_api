@@ -27,6 +27,13 @@ definitions:
     properties:
       date:
         type: string
+      observation:
+        $ref: '#/definitions/models.OceanObservation'
+    type: object
+  models.OceanObservationsResponse:
+    properties:
+      date:
+        type: string
       observations:
         items:
           $ref: '#/definitions/models.OceanObservation'
@@ -77,8 +84,28 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.OceanObservationResponse'
+            $ref: '#/definitions/models.OceanObservationsResponse'
       summary: Get current ocean temperature
+      tags:
+      - oceanObs
+  /oceanObs/{stationId}:
+    get:
+      description: Get the current ocean temperature and highest temperature in the
+        past 24h from a specific location
+      parameters:
+      - description: Station ID
+        in: path
+        name: stationId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.OceanObservationResponse'
+      summary: Get current ocean temperature from a specific location
       tags:
       - oceanObs
 swagger: "2.0"

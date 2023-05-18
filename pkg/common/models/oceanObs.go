@@ -1,8 +1,13 @@
 package models
 
-type OceanObservationResponse struct {
+type OceanObservationsResponse struct {
 	Date         string             `json:"date"`
 	Observations []OceanObservation `json:"observations"`
+}
+
+type OceanObservationResponse struct {
+	Date        string           `json:"date"`
+	Observation OceanObservation `json:"observation"`
 }
 
 type OceanObservation struct {
