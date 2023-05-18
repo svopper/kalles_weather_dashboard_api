@@ -19,8 +19,6 @@ func getAverageMaxTemp(observations []float64) float64 {
 	var sum float64
 	iterations := 0
 	outliersRemoved := removeMinAndMaxValue(observations)
-	fmt.Println(observations)
-	fmt.Println(outliersRemoved)
 	for _, observation := range outliersRemoved {
 		if observation == math.Inf(1) {
 			continue
@@ -70,7 +68,6 @@ func getMinTempValues(observations []models.TemperatureObservation) []float64 {
 
 func getWatherObservations(from, to time.Time) models.DMIObservation {
 	uri := generateTemperatureUri(from, to)
-	fmt.Println(uri)
 	request := util.BuildRequest(uri)
 	response := util.DoRequest(request)
 	body, err := io.ReadAll(response.Body)
@@ -116,8 +113,6 @@ func getTemperatureObservation(h handler, keyMin, keyMax string, fromDate, toDat
 	var to models.TemperatureObservation
 	value_min, err_min := h.DB.Get(keyMin).Result()
 	value_max, err_max := h.DB.Get(keyMax).Result()
-	fmt.Println(value_min)
-	fmt.Println(value_max)
 	if err_min != redis.Nil && err_max != redis.Nil {
 		v_min, _ := strconv.ParseFloat(value_min, 64)
 		v_max, _ := strconv.ParseFloat(value_max, 64)

@@ -19,7 +19,6 @@ func generateOceanUri(stationId int) string {
 		stationId,
 		util.GetEnvVariable("DMI_OCEAN_OBS_API_KEY"),
 	)
-	fmt.Println(uri)
 	return uri
 }
 
