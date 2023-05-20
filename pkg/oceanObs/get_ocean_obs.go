@@ -90,6 +90,14 @@ func (h handler) GetOceanObsByStationId(c *gin.Context) {
 		panic(err)
 	}
 
+	station := util.OCEAN_STATION_MAP[stationIdInt]
+	if station == "" {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Station ID does not exist",
+		})
+		return
+	}
+
 	oceanObsModel := models.OceanObservationResponse{
 		Date: time.Now().Format("January 02"),
 	}
