@@ -27,14 +27,17 @@ func setupSwagger(router *gin.Engine) {
 
 func main() {
 	envs.ConfigureViper()
+
 	router := router.InstantiateRouter()
 	setupSwagger(router)
-	port := os.Getenv("PORT")
 
+	port := os.Getenv("PORT")
 	if port == "" {
-		log.Println("PORT environment variable not set. Defaulting to 8080")
-		port = "8080"
+		fallback_port := "8080"
+		log.Println("PORT environment variable not set. Defaulting to" + fallback_port)
+		port = fallback_port
 	}
+
 	router.GET("", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "I'm alive!",
@@ -46,5 +49,5 @@ func main() {
 	metObs.RegisterRoutes(router, db_client)
 	oceanObs.RegisterRoutes(router, db_client)
 	stations.RegisterRoutes(router, db_client)
-	router.Run("localhost:" + port)
+	router.Run(":" + port)
 }
