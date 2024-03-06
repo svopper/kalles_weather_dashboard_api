@@ -41,10 +41,10 @@ func main() {
 		})
 	})
 
-	db_client := db.Init()
+	dbClient := db.Init()
 
-	metObs.RegisterRoutes(router, db_client)
-	oceanObs.RegisterRoutes(router, db_client)
-	stations.RegisterRoutes(router, db_client)
+	metObs.RegisterRoutes(router, dbClient)
+	oceanObs.RegisterRoutes(router, dbClient)
+	stations.RegisterRoutes(router, dbClient)
 	router.Run("localhost:" + port)
 }

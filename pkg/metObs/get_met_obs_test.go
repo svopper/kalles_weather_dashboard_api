@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_removeMinAndMaxValue(t *testing.T) {
+func TestRemoveMinAndMaxValue(t *testing.T) {
 	var tests = []struct {
 		input    []float64
 		expected []float64
