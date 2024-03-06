@@ -1,4 +1,5 @@
 # Kalle's Weather Dashboard API 🌤
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=svopper_kalles_weather_dashboard_api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=svopper_kalles_weather_dashboard_api) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=svopper_kalles_weather_dashboard_api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=svopper_kalles_weather_dashboard_api) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=svopper_kalles_weather_dashboard_api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=svopper_kalles_weather_dashboard_api) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=svopper_kalles_weather_dashboard_api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=svopper_kalles_weather_dashboard_api)
 
 > API that consumes the DMI API and presents weather data through different endpoints.
 

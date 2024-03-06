@@ -5,5 +5,5 @@ import (
 )
 
 func (h handler) GetMetObsStation(c *gin.Context) {
-
+	panic("Function not implemented")
 }

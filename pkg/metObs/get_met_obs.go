@@ -132,7 +132,7 @@ func getTemperatureObservation(h handler, keyMin, keyMax string, fromDate, toDat
 }
 
 func (h handler) GetAverage(c *gin.Context) {
-
+	panic("Function not implemented")
 }
 
 // GetMetObs godoc
