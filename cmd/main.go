@@ -34,7 +34,7 @@ func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		fallback_port := "8080"
-		log.Println("PORT environment variable not set. Defaulting to" + fallback_port)
+		log.Printf("PORT environment variable not set. Defaulting to %s", fallback_port)
 		port = fallback_port
 	}
 
