@@ -1,2 +1,2 @@
-runtime: go120
+runtime: go122
 main: ./cmd/main.go
