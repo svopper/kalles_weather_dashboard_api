@@ -3,7 +3,6 @@ package oceanObs
 import (
 	"fmt"
 	"io"
-	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -40,7 +39,7 @@ func getOceanObservations(stationId int) models.DMIObservation {
 }
 
 func getMax(features []models.Feature) float64 {
-	max := math.Inf(-1)
+	var max float64
 	for _, feature := range features {
 		if feature.Properties.Value > max {
 			max = feature.Properties.Value
@@ -63,11 +62,19 @@ func (h handler) GetOceanObs(c *gin.Context) {
 
 	for stationId, stationName := range util.OCEAN_STATION_MAP {
 		obs := getOceanObservations(stationId)
+
+		var latestTemp float64
+		if obs.NumberReturned == 0 {
+			latestTemp = 0
+		} else {
+			latestTemp = obs.Features[0].Properties.Value
+		}
+
 		observation := models.OceanObservation{
 			StationId:         stationId,
 			StationName:       stationName,
 			MaxTemp24H:        getMax(obs.Features),
-			LatestTemperature: obs.Features[0].Properties.Value,
+			LatestTemperature: latestTemp,
 		}
 		oceanObsModel.Observations = append(oceanObsModel.Observations, observation)
 	}
