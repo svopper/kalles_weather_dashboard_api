@@ -21,7 +21,6 @@ jobs:
           propertyPath: "DMI_MET_OBS_API_KEY"
           value: ${{ secrets.DMI_MET_OBS_API_KEY }}
           commitChange: false
-          updateFile: true
       - name: Update DMI_OCEAN_OBS_API_KEY in config.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -29,7 +28,6 @@ jobs:
           propertyPath: "DMI_OCEAN_OBS_API_KEY"
           value: ${{ secrets.DMI_OCEAN_OBS_API_KEY }}
           commitChange: false
-          updateFile: true
       - name: Update REDIS_DB_PSWD in config.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -37,7 +35,6 @@ jobs:
           propertyPath: "REDIS_DB_PSWD"
           value: ${{ secrets.REDIS_DB_PSWD }}
           commitChange: false
-          updateFile: true
       - name: Update REDIS_URL in config.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -45,13 +42,14 @@ jobs:
           propertyPath: "REDIS_URL"
           value: ${{ secrets.REDIS_URL }}
           commitChange: false
-          updateFile: true
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
+        with:
+          project_id: kalles-weather-dashboard-api
 
-      - name: "Use output"
+      - name: "Check health"
         run: 'curl "${{ steps.deploy.outputs.url }}"'
