@@ -9,6 +9,7 @@ import (
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/db"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/envs"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/router"
+	"github.com/svopper/kalles_weather_dashboard_v2/pkg/forecast"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/metObs"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/oceanObs"
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/stations"
@@ -46,5 +47,6 @@ func main() {
 	metObs.RegisterRoutes(router, dbClient)
 	oceanObs.RegisterRoutes(router, dbClient)
 	stations.RegisterRoutes(router, dbClient)
+	forecast.RegisterRoutes(router)
 	router.Run("localhost:" + port)
 }
