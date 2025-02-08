@@ -9,6 +9,8 @@
 
 App is hosted on [api.weather.kols.dk](https://api.weather.kols.dk/).
 
+Runs as a App Engine applicaiton on Google [Google Cloud Platform](https://console.cloud.google.com/appengine?hl=en&inv=1&invt=AbpCTA&project=kalles-weather-dashboard-api&serviceId=default).
+
 SSL are managed through [Google Cloud Platform](https://console.cloud.google.com/net-services/loadbalancing/advanced/sslCertificates/list?project=kalles-weather-dashboard-api).
 
 Redish cache is hosted here: https://app.redislabs.com/#/subscriptions/subscription/1838338/bdb-view/11200786/configuration
@@ -17,13 +19,14 @@ Redish cache is hosted here: https://app.redislabs.com/#/subscriptions/subscript
 
 This app uses env variables to get API keys. The following keys are needed:
 
-| **Variable**          | **Description**                                              | **Status** |
-| --------------------- | ------------------------------------------------------------ | ---------- |
-| DMI_MET_OBS_API_KEY   | Key to access to weather observation API                     | Required   |
-| DMI_OCEAN_OBS_API_KEY | Key to access to ocean observartion API                      | Required   |
-| REDIS_URL             | URL endpoint for the Redis Cache                             | Required   |
-| REDIS_DB_PSWD         | The password the the Redis Cache database                    | Required   |
-| PORT                  | The port that the app is exposed through on the host machine | Optional   |
+| **Variable**             | **Description**                                              | **Status** |
+| ------------------------ | ------------------------------------------------------------ | ---------- |
+| DMI_MET_OBS_API_KEY      | Key to access to weather observation API                     | Required   |
+| DMI_OCEAN_OBS_API_KEY    | Key to access to ocean observartion API                      | Required   |
+| DMI_FORECAST_EDR_API_KEY | Key to access to forecast EDR API                            | Required   |
+| REDIS_URL                | URL endpoint for the Redis Cache                             | Required   |
+| REDIS_DB_PSWD            | The password the the Redis Cache database                    | Required   |
+| PORT                     | The port that the app is exposed through on the host machine | Optional   |
 
 During development, API keys should be stored as env variables on the OS. When deploying to production, proper API keys are injected in [pkg/common/envs/config.yaml](https://github.com/svopper/kalles_weather_dashboard_v2/blob/main/pkg/common/envs/config.yaml) from a GitHub Action. API keys are found on the [DMI Open Data platform](https://dmiapi.govcloud.dk/).
 

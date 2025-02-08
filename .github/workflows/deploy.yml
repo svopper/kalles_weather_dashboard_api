@@ -30,6 +30,14 @@ jobs:
           value: ${{ secrets.DMI_OCEAN_OBS_API_KEY }}
           commitChange: false
           updateFile: true
+      - name: Update DMI_FORECAST_EDR_API_KEY in config.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: "pkg/common/envs/config.yaml"
+          propertyPath: "DMI_FORECAST_EDR_API_KEY"
+          value: ${{ secrets.DMI_FORECAST_EDR_API_KEY }}
+          commitChange: false
+          updateFile: true
       - name: Update REDIS_DB_PSWD in config.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
