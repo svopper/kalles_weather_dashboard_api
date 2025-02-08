@@ -9,7 +9,7 @@ import (
 	"github.com/svopper/kalles_weather_dashboard_v2/pkg/common/util"
 )
 
-func generateTemperatureUri(fromDate, toDate time.Time) string {
+func generateTemperatureUri(fromDate, toDate time.Time, timezone string) string {
 	// point := url.QueryEscape("POINT(12.585,55.662)")
 	// uri := fmt.Sprintf(
 	// 	"https://dmigw.govcloud.dk/v1/forecastedr/collections/harmonie_dini_sf/position?coords="+point+"&crs=crs84&parameter-name=temperature-2m&f=GeoJSON&datetime=2025-02-08T16:00:00Z/2025-02-09T15:00:00Z&api-key=%s",
@@ -17,7 +17,12 @@ func generateTemperatureUri(fromDate, toDate time.Time) string {
 	// 	// util.FormatDate(toDate),
 	// 	util.GetEnvVariable("DMI_FORECAST_EDR_API_KEY"),
 	// )
-	now := time.Now()
+	loc, err := time.LoadLocation(timezone)
+	if err != nil {
+		panic(err)
+	}
+
+	now := time.Now().In(loc)
 	rounded := now.Truncate(time.Hour)
 	_, offset := now.Zone()
 	utcAdjusted := rounded.Add(time.Duration(offset) * time.Second)
@@ -28,8 +33,8 @@ func generateTemperatureUri(fromDate, toDate time.Time) string {
 	// return uri
 }
 
-func getTemperatureForecast(from, to time.Time) models.DMIObservation {
-	uri := generateTemperatureUri(from, to)
+func getTemperatureForecast(from, to time.Time, timezone string) models.DMIObservation {
+	uri := generateTemperatureUri(from, to, timezone)
 	request := util.BuildRequest(uri)
 	response := util.DoRequest(request)
 	body, err := io.ReadAll(response.Body)
@@ -48,7 +53,7 @@ func getTemperatureForecast(from, to time.Time) models.DMIObservation {
 }
 
 func (h handler) GetTemperatureForecast(c *gin.Context) {
-	forecast := getTemperatureForecast(time.Now(), time.Now().Add(24*time.Hour))
+	forecast := getTemperatureForecast(time.Now(), time.Now().Add(24*time.Hour), "Europe/Copenhagen")
 	viewModel := []models.TemperatureForecast{}
 
 	for _, feature := range forecast.Features {
